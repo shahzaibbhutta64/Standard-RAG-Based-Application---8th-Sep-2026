@@ -1,4 +1,3 @@
-%%writefile vector_store.py
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -6,9 +5,6 @@ import tempfile
 import os
 
 def process_and_index_file(uploaded_file, embeddings_model):
-    """
-    Processes an uploaded PDF, chunks text, and creates a FAISS vector database.
-    """
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
         tmp_file.write(uploaded_file.getvalue())
         tmp_file_path = tmp_file.name
@@ -23,7 +19,6 @@ def process_and_index_file(uploaded_file, embeddings_model):
         )
         chunks = text_splitter.split_documents(docs)
 
-        # Safeguard: check if text extraction yielded any content
         if not chunks:
             raise ValueError("No text could be extracted from this PDF. It may be a scanned image-only PDF.")
 
