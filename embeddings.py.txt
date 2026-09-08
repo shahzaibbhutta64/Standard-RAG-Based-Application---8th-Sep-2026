@@ -1,0 +1,11 @@
+%%writefile embeddings.py
+from langchain_huggingface import HuggingFaceEmbeddings
+
+def load_embedding_model():
+    """
+    Loads an open-source HuggingFace embedding model locally.
+    Runs fast on CPU and outputs 384-dimensional vectors.
+    """
+    model_name = "sentence-transformers/all-MiniLM-L6-v2"
+    embeddings = HuggingFaceEmbeddings(model_name=model_name)
+    return embeddings
