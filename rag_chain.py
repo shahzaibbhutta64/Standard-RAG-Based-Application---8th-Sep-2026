@@ -1,0 +1,27 @@
+%%writefile rag_chain.py
+from groq import Groq
+
+def query_rag_pipeline(query, vectorstore, groq_api_key, model_name="openai/gpt-oss-120b", top_k=3):
+    """
+    Retrieves context from FAISS and queries Groq LLM.
+    """
+    docs = vectorstore.similarity_search(query, k=top_k)
+    context_text = "\n\n---\n\n".join([doc.page_content for doc in docs])
+
+    system_prompt = (
+        "You are a helpful assistant. Use the following document context to answer the question. "
+        "If the answer is not contained in the text, state that you do not know."
+    )
+    user_prompt = f"Context:\n{context_text}\n\nQuestion: {query}"
+
+    client = Groq(api_key=groq_api_key)
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        model=model_name
+    )
+
+    answer = chat_completion.choices[0].message.content
+    return answer, docs
