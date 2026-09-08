@@ -3,5 +3,7 @@ groq
 langchain-community
 langchain-text-splitters
 langchain-huggingface
+sentence-transformers
+torch
 faiss-cpu
 pypdf
