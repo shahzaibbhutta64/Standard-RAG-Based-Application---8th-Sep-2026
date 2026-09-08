@@ -1,4 +1,3 @@
-%%writefile app.py
 import streamlit as st
 import os
 
@@ -9,7 +8,7 @@ from rag_chain import query_rag_pipeline
 st.set_page_config(page_title="RAG PDF QA", layout="wide")
 st.title("📄 RAG App (Groq + FAISS)")
 
-groq_api_key = os.environ.get("GROQ_API_KEY", "")
+groq_api_key = st.secrets.get("GROQ_API_KEY", os.environ.get("GROQ_API_KEY", ""))
 
 with st.sidebar:
     st.header("Settings")
