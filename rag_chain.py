@@ -1,10 +1,6 @@
-%%writefile rag_chain.py
 from groq import Groq
 
 def query_rag_pipeline(query, vectorstore, groq_api_key, model_name="openai/gpt-oss-120b", top_k=3):
-    """
-    Retrieves context from FAISS and queries Groq LLM.
-    """
     docs = vectorstore.similarity_search(query, k=top_k)
     context_text = "\n\n---\n\n".join([doc.page_content for doc in docs])
 
